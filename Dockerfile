@@ -1,5 +1,5 @@
 # 使用 node:10.13作为基础镜像
-FROM node:10.13-alpine
+FROM node:6.10.3-slim
 
 # 安装nginx
 RUN apt-get update \
