@@ -1,9 +1,9 @@
 # 使用 node:10.13作为基础镜像
-FROM node:6.10.3-slim
+FROM node:8.11.2
 
 # 安装nginx
-RUN apt-get update \
-    && apt-get install -y nginx
+RUN apt-get clean && apt-get update
+RUN apt-get install -y nginx
 
 # 指定工作目录
 WORKDIR /app
@@ -20,8 +20,9 @@ EXPOSE 80
 # 4.删除工作目录的文件， 尤其是 node_modules 以减小镜像体积
 # 由于镜像构建的每一步都会产生新层
 # 为了减小镜像体积，尽可能将一些同类操作， 集成到一个步骤中， 如下
-RUN npm install \
-    && npm run build \
+RUN npm install -g cnpm --registry=https://http://registry.npm.taobao.org \
+    && cnpm install \
+    && cnpm run build \
     && cp -r dist/* /var/www/html \
     && rm -rf /app
 
